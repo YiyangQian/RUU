@@ -5,4 +5,3 @@ clean:
 
 test: 
 	pytest *_test.py
-
