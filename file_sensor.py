@@ -47,7 +47,7 @@ class FileSensor(object):
             observer.stop()
         observer.join()
     
-
-path = '/Users/yiyang/Documents/'
-fs = FileSensor(path)
-fs.monitor()
+if __name__ == "__main__":
+    path = '/Users/yiyang/Documents/'
+    fs = FileSensor(path)
+    fs.monitor()

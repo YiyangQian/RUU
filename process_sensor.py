@@ -6,16 +6,16 @@ class ProcessSensor(object):
     # process ID, executable path, state, time, parent process ID
     past_list = []
     store = {}
-    minutes = 0
+    seconds = 0
     iterations = 0
     interval_seconds = 0
 
     def __init__(self, days, interval_seconds):
         self.past_list = psutil.pids()
         self.update_store()
-        self.minutes = days * 24 * 60
+        self.seconds = days * 24 * 60 * 60
         self.interval_seconds = interval_seconds
-        self.iterations = self.minutes / interval_seconds
+        self.iterations = self.seconds / interval_seconds
 
     def get_added_pid(self, cur_list):
         added = []
@@ -50,6 +50,9 @@ class ProcessSensor(object):
         self.past_list = cur_list
         return added, removed
     
+    def getTime(self):
+        return datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+
     def generateLogTuples(self, pids, isCreate):
         res = []
         action = ""
@@ -58,8 +61,9 @@ class ProcessSensor(object):
         else:
             action = "delete"
         for pid in pids:
-            curLog = (datetime.now().strftime('%Y-%m-%d %H:%M:%S'), "process", action, self.store[pid]['exe'])
-            res.append(curLog)
+            if pid in self.store:
+                curLog = (self.getTime(), "process", action, self.store[pid]['exe'])
+                res.append(curLog)
         return res
 
     def monitor(self):
@@ -74,6 +78,6 @@ class ProcessSensor(object):
                     log_file.write('\n'.join('{}, {}, {}, {}'.format(log[0], log[1], log[2], log[3]) for log in logs))
                     log_file.write('\n')
 
-
-ps = ProcessSensor(4, 10)
-ps.monitor()
+if __name__ == "__main__":
+    ps = ProcessSensor(4, 10)
+    ps.monitor()
