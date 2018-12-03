@@ -11,6 +11,9 @@ if __name__ == "__main__":
 
     parser_stranger = Parser()
     stranger_data = parser_stranger.parse('stranger_process_log.txt', 'stranger_window_log.txt', 'stranger_file_log.txt')
+
+    parser_stranger2 = Parser()
+    stranger_data2 = parser_stranger2.parse('stranger2_process_log.txt', 'stranger2_window_log.txt', 'stranger2_file_log.txt')
     
     gmm = GaussianMixture(n_components=15).fit(train)
 
@@ -26,6 +29,11 @@ if __name__ == "__main__":
 
     figure_stranger = plt.figure("stranger")
     plt.hist(gmm.score_samples(stranger_data), bins='auto')
+    plt.title("stranger")
+    figure_stranger.show()
+
+    figure_stranger = plt.figure("stranger2")
+    plt.hist(gmm.score_samples(stranger_data2), bins='auto')
     plt.title("stranger")
     figure_stranger.show()
 

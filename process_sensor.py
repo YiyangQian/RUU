@@ -81,5 +81,5 @@ class ProcessSensor(object):
                     log_file.write('\n')
 
 if __name__ == "__main__":
-    ps = ProcessSensor(4, 10, "stranger_process_log")
+    ps = ProcessSensor(4, 10, "stranger2_process_log.txt")
     ps.monitor()

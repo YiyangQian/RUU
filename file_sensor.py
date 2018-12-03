@@ -54,5 +54,5 @@ class FileSensor(object):
     
 if __name__ == "__main__":
     path = '/Users/yiyang/Documents/'
-    fs = FileSensor(path, "stranger_file_log.txt")
+    fs = FileSensor(path, "stranger2_file_log.txt")
     fs.monitor()

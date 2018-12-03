@@ -51,6 +51,6 @@ class WindowSensor(object):
                     log_file.write('\n')
 
 if __name__ == "__main__":
-    ws = WindowSensor(4, 10, "stranger_window_log.txt")
+    ws = WindowSensor(4, 10, "stranger2_window_log.txt")
     ws.monitor()
     
