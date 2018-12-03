@@ -8,12 +8,14 @@ class WindowSensor(object):
     seconds = 0
     iterations = 0
     interval_seconds = 0
+    path_to_write = ""
 
-    def __init__(self, days, interval_seconds):
+    def __init__(self, days, interval_seconds, path_to_write):
         self.seconds = days * 24 * 60 * 60
         self.interval_seconds = interval_seconds
         self.iterations = self.seconds / self.interval_seconds
         self.front_most_app = self.getFrontMostApplication()
+        self.path_to_write = path_to_write
     
     def getFrontMostApplication(self):
         '''
@@ -42,12 +44,13 @@ class WindowSensor(object):
                 topped = (cur_time, "window", "top", cur_front_most_app)
                 left = (cur_time, "window", "leave", self.front_most_app)
                 self.front_most_app = cur_front_most_app
-                with open("window_log.txt", 'a') as log_file:
+                with open(self.path_to_write, 'a') as log_file:
                     log_file.write('{}, {}, {}, {}'.format(topped[0], topped[1], topped[2], topped[3]))
                     log_file.write('\n') 
                     log_file.write('{}, {}, {}, {}'.format(left[0], left[1], left[2], left[3]))
                     log_file.write('\n')
 
 if __name__ == "__main__":
-    ws = WindowSensor(4, 10)
+    ws = WindowSensor(4, 10, "stranger_window_log.txt")
     ws.monitor()
+    

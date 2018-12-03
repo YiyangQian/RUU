@@ -9,13 +9,15 @@ class ProcessSensor(object):
     seconds = 0
     iterations = 0
     interval_seconds = 0
+    path_to_write = ""
 
-    def __init__(self, days, interval_seconds):
+    def __init__(self, days, interval_seconds, path_to_write):
         self.past_list = psutil.pids()
         self.update_store()
         self.seconds = days * 24 * 60 * 60
         self.interval_seconds = interval_seconds
         self.iterations = self.seconds / interval_seconds
+        self.path_to_write = path_to_write
 
     def get_added_pid(self, cur_list):
         added = []
@@ -74,10 +76,10 @@ class ProcessSensor(object):
             removedLogs = self.generateLogTuples(removed, False)
             logs = addedLogs + removedLogs
             if len(logs) != 0:
-                with open("process_log.txt", 'a') as log_file:
+                with open(self.path_to_write, 'a') as log_file:
                     log_file.write('\n'.join('{}, {}, {}, {}'.format(log[0], log[1], log[2], log[3]) for log in logs))
                     log_file.write('\n')
 
 if __name__ == "__main__":
-    ps = ProcessSensor(4, 10)
+    ps = ProcessSensor(4, 10, "stranger_process_log")
     ps.monitor()

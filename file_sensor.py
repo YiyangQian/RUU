@@ -7,12 +7,15 @@ from watchdog.events import *
 from datetime import datetime
 
 class CustomFileEventHandler(PatternMatchingEventHandler):
-    def __init__(self):
+    path_to_write = ""
+
+    def __init__(self, path_to_write):
         super(CustomFileEventHandler, self).__init__(ignore_patterns=['*/*_log.txt'])
+        self.path_to_write = path_to_write
 
     def on_any_event(self, event):
         file_name = event.src_path
-        with open("file_log.txt", "a") as log_file:
+        with open(self.path_to_write, "a") as log_file:
             what = 'directory' if event.is_directory else "file"
             if isinstance(event, FileModifiedEvent):
                 modified = (datetime.now().strftime('%Y-%m-%d %H:%M:%S'), what, 'modified', file_name)
@@ -31,12 +34,14 @@ class CustomFileEventHandler(PatternMatchingEventHandler):
             
 class FileSensor(object):
     path = "."
+    path_to_write = ""
     
-    def __init__(self, path_to_monitor):
+    def __init__(self, path_to_monitor, path_to_write):
         self.path = path_to_monitor
+        self.path_to_write = path_to_write
 
     def monitor(self):
-        event_handler = CustomFileEventHandler()
+        event_handler = CustomFileEventHandler(self.path_to_write)
         observer = Observer()
         observer.schedule(event_handler, self.path, recursive=True)
         observer.start()
@@ -49,5 +54,5 @@ class FileSensor(object):
     
 if __name__ == "__main__":
     path = '/Users/yiyang/Documents/'
-    fs = FileSensor(path)
+    fs = FileSensor(path, "stranger_file_log.txt")
     fs.monitor()
