@@ -16,3 +16,9 @@ Assignments of course Intrusion Detection System at Columbia University given by
 
 ![Stranger2 data](https://github.com/YiyangQian/IDS_Active_Authentication/blob/master/stranger2.png)
 
+As shown in these histagrams, the model seems not be able to fully distinguish a stranger and me. The reason I think is that my friends have very similar user behaviors. For example, we are used to spend long time on Chrome and video websites. Thus the frequencies would not differ too much.
+
+6. Future Work: 
+    * add decoys 
+    * try other models
+    * mock attacker behaviors 
